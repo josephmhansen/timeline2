@@ -7,17 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7207B59D1D7E24CF00B6D1DD /* TimelineListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7207B59C1D7E24CF00B6D1DD /* TimelineListTableViewController.swift */; };
+		7207B59F1D7E24EF00B6D1DD /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7207B59E1D7E24EF00B6D1DD /* PostDetailViewController.swift */; };
+		7207B5A11D7E24FF00B6D1DD /* AddPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7207B5A01D7E24FF00B6D1DD /* AddPostViewController.swift */; };
+		7207B5A41D7E25EE00B6D1DD /* ResultsSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7207B5A31D7E25EE00B6D1DD /* ResultsSearchTableViewController.swift */; };
+		7207B5A61D7F111E00B6D1DD /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7207B5A51D7F111E00B6D1DD /* Post.swift */; };
+		7207B5A81D7F112800B6D1DD /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7207B5A71D7F112800B6D1DD /* Comment.swift */; };
+		7207B5D21D7F15B400B6D1DD /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7207B5D11D7F15B400B6D1DD /* PostController.swift */; };
+		726A14EB1D7F5E6E003D2EB9 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726A14EA1D7F5E6E003D2EB9 /* CloudKitManager.swift */; };
 		72FB5DF31D7E090100F33C1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FB5DF21D7E090100F33C1F /* AppDelegate.swift */; };
-		72FB5DF51D7E090100F33C1F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FB5DF41D7E090100F33C1F /* ViewController.swift */; };
 		72FB5DF81D7E090100F33C1F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72FB5DF61D7E090100F33C1F /* Main.storyboard */; };
 		72FB5DFA1D7E090100F33C1F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72FB5DF91D7E090100F33C1F /* Assets.xcassets */; };
 		72FB5DFD1D7E090100F33C1F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72FB5DFB1D7E090100F33C1F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7207B59C1D7E24CF00B6D1DD /* TimelineListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineListTableViewController.swift; sourceTree = "<group>"; };
+		7207B59E1D7E24EF00B6D1DD /* PostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
+		7207B5A01D7E24FF00B6D1DD /* AddPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPostViewController.swift; sourceTree = "<group>"; };
+		7207B5A31D7E25EE00B6D1DD /* ResultsSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultsSearchTableViewController.swift; sourceTree = "<group>"; };
+		7207B5A51D7F111E00B6D1DD /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		7207B5A71D7F112800B6D1DD /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		7207B5D11D7F15B400B6D1DD /* PostController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
+		726A14EA1D7F5E6E003D2EB9 /* CloudKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		72FB5DEF1D7E090100F33C1F /* Timeline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Timeline.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72FB5DF21D7E090100F33C1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		72FB5DF41D7E090100F33C1F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		72FB5DF71D7E090100F33C1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		72FB5DF91D7E090100F33C1F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		72FB5DFC1D7E090100F33C1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -35,6 +49,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7207B5A21D7E250700B6D1DD /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7207B59C1D7E24CF00B6D1DD /* TimelineListTableViewController.swift */,
+				7207B5A31D7E25EE00B6D1DD /* ResultsSearchTableViewController.swift */,
+				7207B59E1D7E24EF00B6D1DD /* PostDetailViewController.swift */,
+				7207B5A01D7E24FF00B6D1DD /* AddPostViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		7207B5A91D7F11EA00B6D1DD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7207B5A51D7F111E00B6D1DD /* Post.swift */,
+				7207B5A71D7F112800B6D1DD /* Comment.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		726A14EC1D7F63AD003D2EB9 /* ModelControllers */ = {
+			isa = PBXGroup;
+			children = (
+				7207B5D11D7F15B400B6D1DD /* PostController.swift */,
+			);
+			name = ModelControllers;
+			sourceTree = "<group>";
+		};
+		726A14ED1D7F63BD003D2EB9 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				726A14EA1D7F5E6E003D2EB9 /* CloudKitManager.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		72FB5DE61D7E090100F33C1F = {
 			isa = PBXGroup;
 			children = (
@@ -55,8 +105,11 @@
 			isa = PBXGroup;
 			children = (
 				72FB5DF21D7E090100F33C1F /* AppDelegate.swift */,
-				72FB5DF41D7E090100F33C1F /* ViewController.swift */,
 				72FB5DF61D7E090100F33C1F /* Main.storyboard */,
+				726A14ED1D7F63BD003D2EB9 /* Utilities */,
+				726A14EC1D7F63AD003D2EB9 /* ModelControllers */,
+				7207B5A91D7F11EA00B6D1DD /* Model */,
+				7207B5A21D7E250700B6D1DD /* View Controllers */,
 				72FB5DF91D7E090100F33C1F /* Assets.xcassets */,
 				72FB5DFB1D7E090100F33C1F /* LaunchScreen.storyboard */,
 				72FB5DFE1D7E090100F33C1F /* Info.plist */,
@@ -135,7 +188,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72FB5DF51D7E090100F33C1F /* ViewController.swift in Sources */,
+				7207B59D1D7E24CF00B6D1DD /* TimelineListTableViewController.swift in Sources */,
+				7207B5A11D7E24FF00B6D1DD /* AddPostViewController.swift in Sources */,
+				7207B59F1D7E24EF00B6D1DD /* PostDetailViewController.swift in Sources */,
+				7207B5A81D7F112800B6D1DD /* Comment.swift in Sources */,
+				726A14EB1D7F5E6E003D2EB9 /* CloudKitManager.swift in Sources */,
+				7207B5D21D7F15B400B6D1DD /* PostController.swift in Sources */,
+				7207B5A41D7E25EE00B6D1DD /* ResultsSearchTableViewController.swift in Sources */,
+				7207B5A61D7F111E00B6D1DD /* Post.swift in Sources */,
 				72FB5DF31D7E090100F33C1F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,6 +346,7 @@
 				72FB5E031D7E090100F33C1F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

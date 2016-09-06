@@ -1,0 +1,48 @@
+//
+//  Comment.swift
+//  Timeline
+//
+//  Created by Joseph Hansen on 9/6/16.
+//  Copyright © 2016 Joseph Hansen. All rights reserved.
+//
+
+import Foundation
+import CloudKit
+
+struct Comment {
+    static let kType = "Comment"
+    static let kText = "text"
+    static let kPost = "post"
+    static let kTimestamp = "timestamp"
+    
+    let text: String
+    let timestamp: NSDate
+    var post: Post?
+    
+    
+    
+    init(post: Post?, text: String, timestamp: NSDate = NSDate()) {
+        self.text = text
+        self.timestamp = timestamp
+        self.post = post
+    }
+    
+    init?(record: CKRecord) {
+        guard let timestamp = record.creationDate,
+            let text = record[Comment.kText] as? String else { return nil }
+        self.init(post: nil, text: text, timestamp: timestamp)
+        cloudKitRecordID = record.recordID
+    }
+    var cloudKitRecordID: CKRecordID?
+    var recordType: String { return Comment.kType }
+}
+
+extension CKRecord {
+    convenience init(_ comment: Comment) {
+        let recordID = CKRecordID(recordName: NSUUID().UUIDString)
+        self.init(recordType: Comment.kType, recordID: recordID)
+        
+        self[Comment.kTimestamp] = comment.timestamp
+       
+    }
+}
