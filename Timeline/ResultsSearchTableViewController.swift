@@ -44,7 +44,6 @@ class ResultsSearchTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("resultsCell", forIndexPath: indexPath)
         let filteredPost = filteredPosts[indexPath.row]
         cell.textLabel?.text = filteredPost.caption
-
         // Configure the cell...
 
         return cell

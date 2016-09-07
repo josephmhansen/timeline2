@@ -15,6 +15,8 @@
 		7207B5A81D7F112800B6D1DD /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7207B5A71D7F112800B6D1DD /* Comment.swift */; };
 		7207B5D21D7F15B400B6D1DD /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7207B5D11D7F15B400B6D1DD /* PostController.swift */; };
 		726A14EB1D7F5E6E003D2EB9 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726A14EA1D7F5E6E003D2EB9 /* CloudKitManager.swift */; };
+		726A14EF1D80B44B003D2EB9 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726A14EE1D80B44B003D2EB9 /* PostTableViewCell.swift */; };
+		726A14F21D80BD93003D2EB9 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726A14F11D80BD93003D2EB9 /* CloudKit.framework */; };
 		72FB5DF31D7E090100F33C1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FB5DF21D7E090100F33C1F /* AppDelegate.swift */; };
 		72FB5DF81D7E090100F33C1F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72FB5DF61D7E090100F33C1F /* Main.storyboard */; };
 		72FB5DFA1D7E090100F33C1F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72FB5DF91D7E090100F33C1F /* Assets.xcassets */; };
@@ -30,6 +32,9 @@
 		7207B5A71D7F112800B6D1DD /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		7207B5D11D7F15B400B6D1DD /* PostController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
 		726A14EA1D7F5E6E003D2EB9 /* CloudKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
+		726A14EE1D80B44B003D2EB9 /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
+		726A14F01D80BD7F003D2EB9 /* Timeline.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Timeline.entitlements; sourceTree = "<group>"; };
+		726A14F11D80BD93003D2EB9 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		72FB5DEF1D7E090100F33C1F /* Timeline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Timeline.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72FB5DF21D7E090100F33C1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72FB5DF71D7E090100F33C1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -43,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				726A14F21D80BD93003D2EB9 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				7207B59C1D7E24CF00B6D1DD /* TimelineListTableViewController.swift */,
+				726A14EE1D80B44B003D2EB9 /* PostTableViewCell.swift */,
 				7207B5A31D7E25EE00B6D1DD /* ResultsSearchTableViewController.swift */,
 				7207B59E1D7E24EF00B6D1DD /* PostDetailViewController.swift */,
 				7207B5A01D7E24FF00B6D1DD /* AddPostViewController.swift */,
@@ -88,6 +95,7 @@
 		72FB5DE61D7E090100F33C1F = {
 			isa = PBXGroup;
 			children = (
+				726A14F11D80BD93003D2EB9 /* CloudKit.framework */,
 				72FB5DF11D7E090100F33C1F /* Timeline */,
 				72FB5DF01D7E090100F33C1F /* Products */,
 			);
@@ -104,6 +112,7 @@
 		72FB5DF11D7E090100F33C1F /* Timeline */ = {
 			isa = PBXGroup;
 			children = (
+				726A14F01D80BD7F003D2EB9 /* Timeline.entitlements */,
 				72FB5DF21D7E090100F33C1F /* AppDelegate.swift */,
 				72FB5DF61D7E090100F33C1F /* Main.storyboard */,
 				726A14ED1D7F63BD003D2EB9 /* Utilities */,
@@ -149,6 +158,12 @@
 				TargetAttributes = {
 					72FB5DEE1D7E090100F33C1F = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 793L5ZBT7T;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -195,6 +210,7 @@
 				726A14EB1D7F5E6E003D2EB9 /* CloudKitManager.swift in Sources */,
 				7207B5D21D7F15B400B6D1DD /* PostController.swift in Sources */,
 				7207B5A41D7E25EE00B6D1DD /* ResultsSearchTableViewController.swift in Sources */,
+				726A14EF1D80B44B003D2EB9 /* PostTableViewCell.swift in Sources */,
 				7207B5A61D7F111E00B6D1DD /* Post.swift in Sources */,
 				72FB5DF31D7E090100F33C1F /* AppDelegate.swift in Sources */,
 			);
@@ -309,9 +325,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Timeline/Timeline.entitlements;
 				INFOPLIST_FILE = Timeline/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Devmountain.Timeline;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JosephHansen.Timeline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -320,9 +337,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Timeline/Timeline.entitlements;
 				INFOPLIST_FILE = Timeline/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Devmountain.Timeline;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JosephHansen.Timeline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

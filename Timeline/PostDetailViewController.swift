@@ -9,6 +9,8 @@
 import UIKit
 
 class PostDetailViewController: UIViewController {
+    
+    var post: Post?
 
     override func viewDidLoad() {
         super.viewDidLoad()

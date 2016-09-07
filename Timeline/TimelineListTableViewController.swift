@@ -14,6 +14,24 @@ class TimelineListTableViewController: UITableViewController, UISearchResultsUpd
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        PostController.sharedController.fetchPosts { (_) in
+            
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(postsWereUpdated), name: "postsWereUpdated", object: nil)
+        
+    }
+    
+    func postsWereUpdated() {
+        dispatch_async(dispatch_get_main_queue()) {
+        self.tableView.reloadData()    
+        }
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     func setupSearchController() {
@@ -48,21 +66,24 @@ class TimelineListTableViewController: UITableViewController, UISearchResultsUpd
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return PostController.sharedController.posts.count
     }
 
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("postCell", forIndexPath: indexPath)
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("postCell", forIndexPath: indexPath) as? PostTableViewCell
+        let post = PostController.sharedController.posts[indexPath.row]
+        cell?.updateWithPost(post)
+        
+        
         // Configure the cell...
 
-        return cell
+        return cell ?? UITableViewCell()
     }
 
 
@@ -101,14 +122,21 @@ class TimelineListTableViewController: UITableViewController, UISearchResultsUpd
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "toViewPost" {
+            let postDetailVC = segue.destinationViewController as? PostDetailViewController
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let post = PostController.sharedController.posts[indexPath.row]
+                postDetailVC?.post = post
+            }
+        }
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+    
 
 }

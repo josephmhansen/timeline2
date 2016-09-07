@@ -27,7 +27,7 @@ class Post {
     
     var cloudKitRecordID: CKRecordID?
     
-    var recordType: String { return Post.kType }
+    var recordType: String { return Post.recordType }
     
     init(photoData: NSData?, caption: String, timestamp: NSDate = NSDate(), comments: [Comment] = []) {
         self.timestamp = timestamp
@@ -37,10 +37,11 @@ class Post {
     }
     
     convenience init?(record: CKRecord) {
-        guard let timestamp = record.creationDate,
+        guard let timestamp = record[Post.kTimestamp] as? NSDate,
         photoAsset = record[Post.kPhotoData] as? CKAsset,
         caption = record[Post.kCaption] as? String,
-        photoData = NSData(contentsOfURL: photoAsset.fileURL) else { return nil }
+        photoData = NSData(contentsOfURL: photoAsset.fileURL)
+            else { return nil }
         
         self.init(photoData: photoData, caption: caption, timestamp: timestamp)
         
@@ -58,10 +59,11 @@ class Post {
 }
 
 extension Post {
-    static var kType = "Post"
+    static var recordType: String  { return "Post" }
     static var kPhotoData = "photoData"
     static var kTimestamp = "timestamp"
     static var kCaption = "caption"
+    
     
 }
 
@@ -71,6 +73,7 @@ extension CKRecord {
         self.init(recordType: post.recordType, recordID: recordID)
         
         self[Post.kTimestamp] = post.timestamp
+        self[Post.kCaption] = post.caption
         self[Post.kPhotoData] = CKAsset(fileURL: post.temporaryPhotoURL)
     }
 }
