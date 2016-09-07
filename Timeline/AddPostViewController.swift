@@ -22,7 +22,12 @@ class AddPostViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         captionTextField.delegate = self
-        // Do any additional setup after loading the view.
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillHide), name: UIKeyboardWillHideNotification, object: nil)
+        
+        
+        
     }
     @IBAction func postButtonTapped(sender: AnyObject) {
         guard let image = self.postImageView.image,
