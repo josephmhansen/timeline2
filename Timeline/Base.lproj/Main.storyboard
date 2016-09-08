@@ -15,7 +15,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="c1d-SO-Mf7">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchCell" id="c1d-SO-Mf7">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="c1d-SO-Mf7" id="7MK-Y2-APY">
@@ -48,16 +48,16 @@
                                 <rect key="frame" x="0.0" y="92" width="320" height="393"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6zF-hz-ptY" id="akL-xV-XsY">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="392.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="393"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="jfc-28-IU7">
                                             <rect key="frame" x="8" y="8" width="304" height="377"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0GV-GE-4mr">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0GV-GE-4mr">
                                                     <rect key="frame" x="0.0" y="0.0" width="304" height="338"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxf-i1-DDN" userLabel="captionLabel">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxf-i1-DDN" userLabel="captionLabel">
                                                     <rect key="frame" x="0.0" y="339" width="304" height="19"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="19" id="r5G-ay-2Gg"/>
@@ -79,11 +79,13 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="VQE-fF-RPw" firstAttribute="leading" secondItem="jfc-28-IU7" secondAttribute="leading" id="8Kq-GJ-PhO"/>
+                                                <constraint firstItem="rxf-i1-DDN" firstAttribute="top" secondItem="0GV-GE-4mr" secondAttribute="bottom" constant="1" id="DxS-CG-Fpy"/>
                                                 <constraint firstAttribute="height" constant="377" id="HMK-m9-6Cq"/>
                                                 <constraint firstAttribute="trailing" secondItem="rxf-i1-DDN" secondAttribute="trailing" id="UXh-QG-AoT"/>
                                                 <constraint firstAttribute="trailing" secondItem="VQE-fF-RPw" secondAttribute="trailing" id="atH-Zv-Tks"/>
                                                 <constraint firstItem="0GV-GE-4mr" firstAttribute="leading" secondItem="jfc-28-IU7" secondAttribute="leading" id="fXb-KV-T2L"/>
                                                 <constraint firstAttribute="trailing" secondItem="0GV-GE-4mr" secondAttribute="trailing" id="pSj-XC-r5D"/>
+                                                <constraint firstItem="0GV-GE-4mr" firstAttribute="centerX" secondItem="jfc-28-IU7" secondAttribute="centerX" id="tSn-R9-Xgz"/>
                                                 <constraint firstItem="rxf-i1-DDN" firstAttribute="leading" secondItem="jfc-28-IU7" secondAttribute="leading" id="yUO-16-rMT"/>
                                             </constraints>
                                         </stackView>
@@ -276,7 +278,7 @@
                                         <rect key="frame" x="0.0" y="236" width="288" height="50"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Lyo-f9-b4D">
-                                                <rect key="frame" x="8" y="8" width="272" height="34"/>
+                                                <rect key="frame" x="8" y="8" width="272" height="30"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zqg-dG-euK">
                                                         <rect key="frame" x="0.0" y="0.0" width="91" height="34"/>
