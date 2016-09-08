@@ -8,97 +8,28 @@
 
 import Foundation
 
-import UIKit
 import CloudKit
-
-private let CreatorUserRecordIDKey = "creatorUserRecordID"
-private let LastModifiedUserRecordIDKey = "creatorUserRecordID"
-private let CreationDateKey = "creationDate"
-private let ModificationDateKey = "modificationDate"
+import UIKit
 
 class CloudKitManager {
     
+    
     let publicDatabase = CKContainer.defaultContainer().publicCloudDatabase
-    let privateDatabase = CKContainer.defaultContainer().privateCloudDatabase
     
-    init() {
+    func saveRecord(record: CKRecord, completion: ((NSError?) -> Void) = { _ in }) {
         
-        checkCloudKitAvailability()
-    }
-    
-    // MARK: - User Info Discovery
-    
-    func fetchLoggedInUserRecord(completion: ((record: CKRecord?, error: NSError? ) -> Void)?) {
-        
-        CKContainer.defaultContainer().fetchUserRecordIDWithCompletionHandler { (recordID, error) in
-            
-            if let error = error,
-                let completion = completion {
-                completion(record: nil, error: error)
-            }
-            
-            if let recordID = recordID,
-                let completion = completion {
-                
-                self.fetchRecordWithID(recordID, completion: { (record, error) in
-                    completion(record: record, error: error)
-                })
-            }
+        publicDatabase.saveRecord(record) { (_, error) in
+            completion(error)
         }
     }
     
-    func fetchUsernameFromRecordID(recordID: CKRecordID, completion: ((givenName: String?, familyName: String?) -> Void)?) {
-        
-        let operation = CKDiscoverUserInfosOperation(emailAddresses: nil, userRecordIDs: [recordID])
-        
-        operation.discoverUserInfosCompletionBlock = { (emailsToUserInfos, userRecordIDsToUserInfos, operationError) -> Void in
-            
-            if let userRecordIDsToUserInfos = userRecordIDsToUserInfos,
-                let userInfo = userRecordIDsToUserInfos[recordID],
-                let completion = completion {
-                
-                completion(givenName: userInfo.displayContact?.givenName, familyName: userInfo.displayContact?.familyName)
-            } else if let completion = completion {
-                completion(givenName: nil, familyName: nil)
-            }
-        }
-        
-        CKContainer.defaultContainer().addOperation(operation)
-    }
-    
-    func fetchAllDiscoverableUsers(completion: ((userInfoRecords: [CKDiscoveredUserInfo]?) -> Void)?) {
-        
-        let operation = CKDiscoverAllContactsOperation()
-        
-        operation.discoverAllContactsCompletionBlock = { (discoveredUserInfos, error) -> Void in
-            
-            if let completion = completion {
-                completion(userInfoRecords:  discoveredUserInfos)
-            }
-        }
-        
-        CKContainer.defaultContainer().addOperation(operation)
-    }
-    
-    
-    // MARK: - Fetch Records
-    
-    func fetchRecordWithID(recordID: CKRecordID, completion: ((record: CKRecord?, error: NSError?) -> Void)?) {
-        
-        publicDatabase.fetchRecordWithID(recordID) { (record, error) in
-            
-            if let completion = completion {
-                completion(record: record, error: error)
-            }
-        }
-    }
-    
-    func fetchRecordsWithType(type: String, predicate: NSPredicate = NSPredicate(value: true), recordFetchedBlock: ((record: CKRecord) -> Void)?, completion: ((records: [CKRecord]?, error: NSError?) -> Void)?) {
+    func fetchRecordsWithType(type: String, sortDescriptors: [NSSortDescriptor]? = nil, predicate: NSPredicate = NSPredicate(value: true), recordFetchedBlock: ((record: CKRecord) -> Void)?, completion: ((records: [CKRecord]?, error: NSError?) -> Void)?) {
         
         var fetchedRecords: [CKRecord] = []
         
         let predicate = predicate
         let query = CKQuery(recordType: type, predicate: predicate)
+        query.sortDescriptors = sortDescriptors
         let queryOperation = CKQueryOperation(query: query)
         
         queryOperation.recordFetchedBlock = { (fetchedRecord) -> Void in
@@ -130,39 +61,25 @@ class CloudKitManager {
         self.publicDatabase.addOperation(queryOperation)
     }
     
-    func fetchCurrentUserRecords(type: String, completion: ((records: [CKRecord]?, error: NSError?) -> Void)?) {
-        
-        fetchLoggedInUserRecord { (record, error) in
-            
-            if let record = record {
-                
-                let predicate = NSPredicate(format: "%K == %@", argumentArray: [CreatorUserRecordIDKey, record.recordID])
-                
-                self.fetchRecordsWithType(type, predicate: predicate, recordFetchedBlock: nil, completion: { (records, error) in
-                    
-                    if let completion = completion {
-                        completion(records: records, error: error)
-                    }
-                })
-            }
-        }
-    }
     
-    func fetchRecordsFromDateRange(type: String, recordType: String, fromDate: NSDate, toDate: NSDate, completion: ((records: [CKRecord]?, error: NSError?) -> Void)?) {
-        
-        let startDatePredicate = NSPredicate(format: "%K > %@", argumentArray: [CreationDateKey, fromDate])
-        let endDatePredicate = NSPredicate(format: "%K < %@", argumentArray: [CreationDateKey, toDate])
-        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [startDatePredicate, endDatePredicate])
-        
-        
-        self.fetchRecordsWithType(type, predicate: predicate, recordFetchedBlock: nil) { (records, error) in
-            
-            if let completion = completion {
-                completion(records: records, error: error)
-            }
-        }
-    }
     
+    func subscribeToCreationOfRecordsWithType(type: String, completion: ((NSError?) -> Void)? = nil) {
+        
+        let subscription = CKSubscription(recordType: type, predicate: NSPredicate(value: true), options: .FiresOnRecordCreation)
+        let notificationInfo = CKNotificationInfo()
+        notificationInfo.alertBody = "New Post on the board"
+        notificationInfo.soundName = UILocalNotificationDefaultSoundName
+        
+        subscription.notificationInfo = notificationInfo
+        
+        publicDatabase.saveSubscription(subscription) { (subscription, error) in
+            if let error = error {
+                print("Error saving subscription: \(error.localizedDescription)")
+            }
+            completion?(error)
+        }
+        
+    }
     
     // MARK: - Delete
     
@@ -188,106 +105,6 @@ class CloudKitManager {
             }
         }
     }
-    
-    
-    // MARK: - Save and Modify
-    
-    func saveRecords(records: [CKRecord], perRecordCompletion: ((record: CKRecord?, error: NSError?) -> Void)?, completion: ((records: [CKRecord]?, error: NSError?) -> Void)?) {
-        
-        modifyRecords(records, perRecordCompletion: perRecordCompletion) { (records, error) in
-            
-            if let completion = completion {
-                completion(records: records, error: error)
-            }
-        }
-    }
-    
-    func saveRecord(record: CKRecord, completion: ((record: CKRecord?, error: NSError?) -> Void)?) {
-        
-        publicDatabase.saveRecord(record) { (record, error) in
-            
-            if let completion = completion {
-                completion(record: record, error: error)
-            }
-        }
-    }
-    
-    func modifyRecords(records: [CKRecord], perRecordCompletion: ((record: CKRecord?, error: NSError?) -> Void)?, completion: ((records: [CKRecord]?, error: NSError?) -> Void)?) {
-        
-        let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
-        operation.savePolicy = .ChangedKeys
-        operation.queuePriority = .High
-        operation.qualityOfService = .UserInteractive
-        
-        operation.perRecordCompletionBlock = { (record, error) -> Void in
-            
-            if let perRecordCompletion = perRecordCompletion {
-                perRecordCompletion(record: record, error: error)
-            }
-        }
-        
-        operation.modifyRecordsCompletionBlock = { (records, recordIDs, error) -> Void in
-            
-            if let completion = completion {
-                completion(records: records, error: error)
-            }
-        }
-        
-        publicDatabase.addOperation(operation)
-    }
-    
-    
-    // MARK: - Subscriptions
-    
-    func subscribe(type: String, predicate: NSPredicate, subscriptionID: String, contentAvailable: Bool, alertBody: String? = nil, desiredKeys: [String]? = nil, options: CKSubscriptionOptions, completion: ((subscription: CKSubscription?, error: NSError?) -> Void)?) {
-        
-        let subscription = CKSubscription(recordType: type, predicate: predicate, subscriptionID: subscriptionID, options: options)
-        
-        let notificationInfo = CKNotificationInfo()
-        notificationInfo.alertBody = alertBody
-        notificationInfo.shouldSendContentAvailable = contentAvailable
-        notificationInfo.desiredKeys = desiredKeys
-        
-        subscription.notificationInfo = notificationInfo
-        
-        publicDatabase.saveSubscription(subscription) { (subscription, error) in
-            
-            if let completion = completion {
-                completion(subscription: subscription, error: error)
-            }
-        }
-    }
-    
-    func unsubscribe(subscriptionID: String, completion: ((subscriptionID: String?, error: NSError?) -> Void)?) {
-        
-        publicDatabase.deleteSubscriptionWithID(subscriptionID) { (subscriptionID, error) in
-            
-            if let completion = completion {
-                completion(subscriptionID: subscriptionID, error: error)
-            }
-        }
-    }
-    
-    func fetchSubscriptions(completion: ((subscriptions: [CKSubscription]?, error: NSError?) -> Void)?) {
-        
-        publicDatabase.fetchAllSubscriptionsWithCompletionHandler { (subscriptions, error) in
-            
-            if let completion = completion {
-                completion(subscriptions: subscriptions, error: error)
-            }
-        }
-    }
-    
-    func fetchSubscription(subscriptionID: String, completion: ((subscription: CKSubscription?, error: NSError?) -> Void)?) {
-        
-        publicDatabase.fetchSubscriptionWithID(subscriptionID) { (subscription, error) in
-            
-            if let completion = completion {
-                completion(subscription: subscription, error: error)
-            }
-        }
-    }
-    
     
     // MARK: - CloudKit Permissions
     
@@ -345,65 +162,8 @@ class CloudKitManager {
         })
     }
     
-    
-    // MARK: - CloudKit Discoverability
-    
-    func requestDiscoverabilityPermission() {
-        
-        CKContainer.defaultContainer().statusForApplicationPermission(.UserDiscoverability) { (permissionStatus, error) in
-            
-            if permissionStatus == .InitialState {
-                CKContainer.defaultContainer().requestApplicationPermission(.UserDiscoverability, completionHandler: { (permissionStatus, error) in
-                    
-                    self.handleCloudKitPermissionStatus(permissionStatus, error: error)
-                })
-            } else {
-                
-                self.handleCloudKitPermissionStatus(permissionStatus, error: error)
-            }
-        }
-    }
-    
-    func handleCloudKitPermissionStatus(permissionStatus: CKApplicationPermissionStatus, error:NSError?) {
-        
-        if permissionStatus == .Granted {
-            print("User Discoverability permission granted. User may proceed with full access.")
-        } else {
-            var errorText = "Synchronization is disabled\n"
-            if let error = error {
-                print("handleCloudKitUnavailable ERROR: \(error)")
-                print("An error occured: \(error.localizedDescription)")
-                errorText += error.localizedDescription
-            }
-            
-            switch permissionStatus {
-            case .Denied:
-                errorText += "You have denied User Discoverability permissions. You may be unable to use certain features that require User Discoverability."
-            case .CouldNotComplete:
-                errorText += "Unable to verify User Discoverability permissions. You may have a connectivity issue. Please try again."
-            default:
-                break
-            }
-            
-            displayCloudKitPermissionsNotGrantedError(errorText)
-        }
-    }
-    
-    func displayCloudKitPermissionsNotGrantedError(errorText: String) {
-        
-        dispatch_async(dispatch_get_main_queue(),{
-            
-            let alertController = UIAlertController(title: "CloudKit Permissions Error", message: errorText, preferredStyle: .Alert)
-            
-            let dismissAction = UIAlertAction(title: "Ok", style: .Cancel, handler: nil);
-            
-            alertController.addAction(dismissAction)
-            
-            if let appDelegate = UIApplication.sharedApplication().delegate,
-                let appWindow = appDelegate.window!,
-                let rootViewController = appWindow.rootViewController {
-                rootViewController.presentViewController(alertController, animated: true, completion: nil)
-            }
-        })
-    }
 }
+
+
+    
+    

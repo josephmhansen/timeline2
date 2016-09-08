@@ -8,21 +8,124 @@
 
 import UIKit
 
-class PostDetailViewController: UIViewController {
+class PostDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var post: Post?
-
+    let postController = PostController()
+    
+    var comments: [Comment] = [] {
+        didSet {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.commentTableView.reloadData()
+            }
+        }
+    }
+    
+    @IBOutlet weak var postImageView: UIImageView!
+    @IBOutlet weak var captionLabel: UILabel!
+    @IBOutlet weak var timestampLabel: UILabel!
+    
+    @IBOutlet weak var commentTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(postsWereUpdated), name: "postsWereUpdated", object: nil)
+        guard let post = post else { return }
+        updateWithPost(post)
+        postController.fetchCommentsForPost(post) { 
+            
+        }
     }
+    
+    func postsWereUpdated() {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.commentTableView.reloadData()
+        }
+    }
+    
+    @IBAction func shareButtonTapped(sender: AnyObject) {
+        
+    }
+    @IBAction func followButtonTapped(sender: AnyObject) {
+        
+    }
+    @IBAction func commentButtonTapped(sender: AnyObject) {
+        presentNewCommentAlert()
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    func updateWithPost(post: Post) {
+        postImageView.image = post.photo
+        captionLabel.text = post.caption
+        timestampLabel.text = NSDate.formattedStringFromDate(post.timestamp)
+        
+    }
+    
+    func presentNewCommentAlert() {
+        let alertController = UIAlertController(title: "New Comment", message: nil, preferredStyle: .Alert)
+        
+        var commentTextField: UITextField?
+        
+        
+        
+        alertController.addTextFieldWithConfigurationHandler { (commentField) in
+            commentField.placeholder = "Enter Comment"
+            commentTextField = commentField
+        }
+        
+        let commentAction = UIAlertAction(title: "Post", style: .Default) { (action) in
+            guard let comment = commentTextField?.text where !comment.isEmpty,
+            let post = self.post else {
+                    self.presentErrorAlert()
+                    return
+            }
+            self.postController.addCommentToPost(comment, post: post)
+        }
+        
+        alertController.addAction(commentAction)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func presentErrorAlert() {
+        let alertController = UIAlertController(title: "Oh no", message: "Possible network connectivity issues, please try again.", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Ok", style: .Cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.row+1 == postController.posts.count {
+            postController.fetchPosts({ (newComments) in
+                
+            })
+        }
+    }
+    
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        guard let post = post else { return  UITableViewCell() }
+            let comment = post.comments[indexPath.row]
+        let cell = tableView.dequeueReusableCellWithIdentifier("commentCell", forIndexPath: indexPath)
+        
+        cell.textLabel?.text = comment.text
+        cell.detailTextLabel?.text = NSDate.formattedStringFromDate(comment.timestamp)
+        cell.imageView?.contentMode = .ScaleAspectFill
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let post = post else { return Int() }
+        return post.comments.count
+    }
 
     /*
     // MARK: - Navigation

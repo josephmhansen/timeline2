@@ -28,23 +28,28 @@ class PostController {
     }
     
     func fetchPosts(completion: (NSError?) -> Void) {
-        let sortDescriptor = NSSortDescriptor(key: Post.kTimestamp, ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
         
-        cloudKitManager.fetchRecordsWithType(Post.recordType, sortDescriptors: [sortDescriptor]) { (records, error) in
-            if error != nil {
-                print("Error fetching messages \(error?.localizedDescription)")
-                completion(error)
-            } else {
-                guard let records = records else { return }
-                let posts = records.flatMap({Post(record: $0)})
-                self.posts = posts
-            }
+        cloudKitManager.fetchRecordsWithType(Post.recordType, sortDescriptors: [sortDescriptor], predicate: NSPredicate(value: true), recordFetchedBlock: { (record) in
+        
+            }) { (records, error) in
+                if error != nil {
+                    print("Error fetching messages \(error?.localizedDescription)")
+                    completion(error)
+                } else {
+                    guard let records = records else { return }
+                    let posts = records.flatMap({Post(record: $0)})
+                    self.posts = posts
+                }
         }
     }
+            
+    
     
     
     func createPost(post: Post, completion: ((NSError?) -> Void) = {_ in}) {
-        cloudKitManager.saveRecord(CKRecord(post)) { (error) in
+        let record = CKRecord(post)
+        cloudKitManager.saveRecord(record) { (error) in
             if error != nil {
                 print("Error saving post record to cloudkit \(error?.localizedDescription)")
             } else {
@@ -52,6 +57,7 @@ class PostController {
                 print("Successfully saved post record to cloudkit")
             }
         }
+        post.cloudKitRecordID = record.recordID
     }
     
     func addCommentToPost(text: String, post: Post, completion: ((Comment) -> Void)? = nil) -> Comment {
@@ -68,6 +74,25 @@ class PostController {
         return comment
     }
     
+    func fetchCommentsForPost(post: Post, completion: (() -> Void)? = nil) {
+        let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
+        
+        guard let recordID = post.cloudKitRecordID else { return }
+        let reference = CKReference(recordID: recordID, action: .DeleteSelf)
+        let predicate = NSPredicate(format: "postReference == %@", reference)
+        
+        cloudKitManager.fetchRecordsWithType(Comment.kType, sortDescriptors: [sortDescriptor], predicate: predicate, recordFetchedBlock: { (record) in
+            
+            }) { (records, error) in
+                guard let records = records else { return }
+                let comments = records.flatMap({Comment(record: $0)})
+                post.comments = comments
+                completion?()
+        }
+        
+        
+    }
+    
     func subscribeToCreationOfPosts(completion: ((NSError?) -> Void)? = nil) {
         cloudKitManager.subscribeToCreationOfRecordsWithType(Post.recordType) { (error) in
             if let error = error {
@@ -78,7 +103,8 @@ class PostController {
             completion?(error)
         }
     }
-}
+
     
 
 
+}

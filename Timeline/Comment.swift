@@ -14,6 +14,7 @@ struct Comment {
     static let kText = "text"
     static let kPost = "post"
     static let kTimestamp = "timestamp"
+    static let kPostReference = "postReference"
     
     let text: String
     let timestamp: NSDate
@@ -28,8 +29,9 @@ struct Comment {
     }
     
     init?(record: CKRecord) {
-        guard let timestamp = record.creationDate,
-            let text = record[Comment.kText] as? String else { return nil }
+        guard let timestamp = record[Comment.kTimestamp] as? NSDate,
+            let text = record[Comment.kText] as? String
+            else { return nil }
         self.init(post: nil, text: text, timestamp: timestamp)
         cloudKitRecordID = record.recordID
     }
@@ -43,6 +45,9 @@ extension CKRecord {
         self.init(recordType: Comment.kType, recordID: recordID)
         
         self[Comment.kTimestamp] = comment.timestamp
-       
+        guard let postRecordID = comment.post?.cloudKitRecordID else { return }
+        let ref = CKReference(recordID: postRecordID, action: .DeleteSelf)
+        self[Comment.kPostReference] = ref
+        self[Comment.kText] = comment.text
     }
 }

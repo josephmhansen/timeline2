@@ -44,7 +44,7 @@ class Post {
             else { return nil }
         
         self.init(photoData: photoData, caption: caption, timestamp: timestamp)
-        
+        self.cloudKitRecordID = record.recordID
     }
     
     private var temporaryPhotoURL: NSURL {
