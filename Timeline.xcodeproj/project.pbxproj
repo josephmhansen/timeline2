@@ -14,6 +14,7 @@
 		7207B5A61D7F111E00B6D1DD /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7207B5A51D7F111E00B6D1DD /* Post.swift */; };
 		7207B5A81D7F112800B6D1DD /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7207B5A71D7F112800B6D1DD /* Comment.swift */; };
 		7207B5D21D7F15B400B6D1DD /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7207B5D11D7F15B400B6D1DD /* PostController.swift */; };
+		720D31AC1D8342C10064E0A9 /* SearchableRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720D31AB1D8342C10064E0A9 /* SearchableRecord.swift */; };
 		726A14EB1D7F5E6E003D2EB9 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726A14EA1D7F5E6E003D2EB9 /* CloudKitManager.swift */; };
 		726A14EF1D80B44B003D2EB9 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726A14EE1D80B44B003D2EB9 /* PostTableViewCell.swift */; };
 		726A14F21D80BD93003D2EB9 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726A14F11D80BD93003D2EB9 /* CloudKit.framework */; };
@@ -31,6 +32,7 @@
 		7207B5A51D7F111E00B6D1DD /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		7207B5A71D7F112800B6D1DD /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		7207B5D11D7F15B400B6D1DD /* PostController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
+		720D31AB1D8342C10064E0A9 /* SearchableRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchableRecord.swift; sourceTree = "<group>"; };
 		726A14EA1D7F5E6E003D2EB9 /* CloudKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		726A14EE1D80B44B003D2EB9 /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		726A14F01D80BD7F003D2EB9 /* Timeline.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Timeline.entitlements; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 			children = (
 				7207B5A51D7F111E00B6D1DD /* Post.swift */,
 				7207B5A71D7F112800B6D1DD /* Comment.swift */,
+				720D31AB1D8342C10064E0A9 /* SearchableRecord.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 				726A14EF1D80B44B003D2EB9 /* PostTableViewCell.swift in Sources */,
 				7207B5A61D7F111E00B6D1DD /* Post.swift in Sources */,
 				72FB5DF31D7E090100F33C1F /* AppDelegate.swift in Sources */,
+				720D31AC1D8342C10064E0A9 /* SearchableRecord.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

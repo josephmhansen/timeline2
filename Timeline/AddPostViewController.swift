@@ -35,9 +35,12 @@ class AddPostViewController: UIViewController, UIImagePickerControllerDelegate, 
         imageData = UIImageJPEGRepresentation(image, 0.8) else { return }
         
         
+        
             let post = Post(photoData: imageData, caption: caption, timestamp: NSDate(), comments: [])
             PostController.sharedController.createPost(post)
             self.post = post
+        let comment = Comment(post: post, text: caption)
+        PostController.sharedController.addCommentToPost(comment.text, post: post)
     
         self.navigationController?.popViewControllerAnimated(true)
         

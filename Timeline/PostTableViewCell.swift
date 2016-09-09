@@ -34,7 +34,9 @@ class PostTableViewCell: UITableViewCell {
     
     
     func updateWithPost(post: Post) {
-        postImage.image = post.photo
+        
+        guard let image = post.photo else { return }
+        postImage.image = image
         timestampLabel.text = NSDate.formattedStringFromDate(post.timestamp)
         captionLabel.text = post.caption
         timestampTextLabel.text = NSDate.formattedStringFromDate(post.timestamp)

@@ -19,7 +19,7 @@ class TimelineListTableViewController: UITableViewController, UISearchResultsUpd
         }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(postsWereUpdated), name: "postsWereUpdated", object: nil)
-        
+        setupSearchController()
     }
     
     func postsWereUpdated() {
@@ -43,7 +43,7 @@ class TimelineListTableViewController: UITableViewController, UISearchResultsUpd
         
         searchController.searchResultsUpdater = self
         searchController.hidesNavigationBarDuringPresentation = true
-        searchController.searchBar.placeholder = "Search for a post"
+        searchController.searchBar.placeholder = "Search for a Post"
         searchController.definesPresentationContext = true
         
         tableView.tableHeaderView = searchController.searchBar
@@ -51,10 +51,13 @@ class TimelineListTableViewController: UITableViewController, UISearchResultsUpd
     }
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        guard let caption = searchController.searchBar.text,
-            resultsController = searchController.searchResultsController as? ResultsSearchTableViewController else { return }
-        resultsController.filteredPosts = PostController.sharedController.searchForPostWithCaption(caption)
-        resultsController.tableView.reloadData()
+        guard let resultsViewController = searchController.searchResultsController as? ResultsSearchTableViewController,
+            searchTerm = searchController.searchBar.text?.lowercaseString else { return }
+        
+        let posts = PostController.sharedController.posts
+        let filteredPosts = posts.filter{ $0.matchesSearchTerm(searchTerm)}.map {$0 as SearchableRecord}
+        resultsViewController.filteredPosts = filteredPosts
+        resultsViewController.tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {

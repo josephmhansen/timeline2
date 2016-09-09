@@ -10,7 +10,7 @@ import UIKit
 
 class ResultsSearchTableViewController: UITableViewController {
     
-    var filteredPosts: [Post] = []
+    var filteredPosts: [SearchableRecord] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,12 +41,21 @@ class ResultsSearchTableViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("resultsCell", forIndexPath: indexPath)
-        let filteredPost = filteredPosts[indexPath.row]
-        cell.textLabel?.text = filteredPost.caption
+        guard let cell = tableView.dequeueReusableCellWithIdentifier("resultsCell", forIndexPath: indexPath) as? PostTableViewCell,
+        let result = filteredPosts[indexPath.row] as? Post else { return UITableViewCell() }
+        
+        cell.updateWithPost(result)
+        
+        
+        // Configure the cell...
+        
+       
+
+        
+       
         // Configure the cell...
 
-        return cell
+        return cell ?? UITableViewCell()
     }
     
 

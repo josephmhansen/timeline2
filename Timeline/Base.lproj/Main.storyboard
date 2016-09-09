@@ -15,7 +15,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchCell" id="c1d-SO-Mf7">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="resultsCell" id="c1d-SO-Mf7" customClass="PostTableViewCell" customModule="Timeline" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="c1d-SO-Mf7" id="7MK-Y2-APY">
@@ -98,7 +98,6 @@
                                             <constraints>
                                                 <constraint firstItem="Bt4-SN-dJP" firstAttribute="leading" secondItem="jfc-28-IU7" secondAttribute="leadingMargin" id="DVf-K5-LFm"/>
                                                 <constraint firstItem="rxf-i1-DDN" firstAttribute="top" secondItem="0GV-GE-4mr" secondAttribute="bottom" constant="1" id="DxS-CG-Fpy"/>
-                                                <constraint firstAttribute="height" constant="377" id="HMK-m9-6Cq"/>
                                                 <constraint firstAttribute="trailing" secondItem="rxf-i1-DDN" secondAttribute="trailing" id="UXh-QG-AoT"/>
                                                 <constraint firstItem="0GV-GE-4mr" firstAttribute="leading" secondItem="jfc-28-IU7" secondAttribute="leading" id="fXb-KV-T2L"/>
                                                 <constraint firstAttribute="trailing" secondItem="0GV-GE-4mr" secondAttribute="trailing" id="pSj-XC-r5D"/>

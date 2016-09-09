@@ -69,6 +69,13 @@ extension Post {
     
 }
 
+extension Post: SearchableRecord {
+    func matchesSearchTerm(searchTerm: String) -> Bool {
+        let matchingComments = comments.filter { $0.matchesSearchTerm(searchTerm) }
+        return !matchingComments.isEmpty
+    }
+}
+
 extension CKRecord {
     convenience init(_ post: Post) {
         let recordID = CKRecordID(recordName: NSUUID().UUIDString)

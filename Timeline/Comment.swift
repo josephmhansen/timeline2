@@ -40,6 +40,12 @@ struct Comment {
     var recordType: String { return Comment.kType }
 }
 
+extension Comment: SearchableRecord {
+    func matchesSearchTerm(searchTerm: String) -> Bool {
+        return text.containsString(searchTerm)
+    }
+}
+
 extension CKRecord {
     convenience init(_ comment: Comment) {
         let recordID = CKRecordID(recordName: NSUUID().UUIDString)
