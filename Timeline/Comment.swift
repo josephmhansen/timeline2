@@ -35,6 +35,7 @@ struct Comment {
         self.init(post: nil, text: text, timestamp: timestamp)
         cloudKitRecordID = record.recordID
     }
+    
     var cloudKitRecordID: CKRecordID?
     var recordType: String { return Comment.kType }
 }

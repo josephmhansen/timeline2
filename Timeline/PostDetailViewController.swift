@@ -29,7 +29,7 @@ class PostDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(postsWereUpdated), name: "postsWereUpdated", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(commentsWereUpdated), name: "commentsWereUpdated", object: nil)
         guard let post = post else { return }
         updateWithPost(post)
         postController.fetchCommentsForPost(post) { 
@@ -37,7 +37,7 @@ class PostDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    func postsWereUpdated() {
+    func commentsWereUpdated() {
         dispatch_async(dispatch_get_main_queue()) {
             self.commentTableView.reloadData()
         }

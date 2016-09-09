@@ -12,14 +12,16 @@ import CloudKit
 
 class Post {
     
-    
-    
-    
-    
     let photoData: NSData?
     let caption: String
     let timestamp: NSDate
-    var comments: [Comment]
+    
+    var comments: [Comment] {
+        didSet {
+            NSNotificationCenter.defaultCenter().postNotificationName("commentsWereUpdated", object: self)
+        }
+    }
+    
     var photo: UIImage? {
         guard let photoData = self.photoData else { return nil }
         return UIImage(data: photoData)
