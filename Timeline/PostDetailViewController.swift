@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import MessageUI
+import SafariServices
 
-class PostDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class PostDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, UINavigationControllerDelegate {
     
     var post: Post?
     let postController = PostController()
@@ -45,10 +47,31 @@ class PostDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @IBAction func shareButtonTapped(sender: AnyObject) {
         
+        guard let image = postImageView.image else { return }
+        let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        presentViewController(controller, animated: true, completion: nil)
+        /*
+        guard MFMailComposeViewController.canSendMail() else { return }
+        
+        let mailController = MFMailComposeViewController()
+        
+        mailController.mailComposeDelegate = self
+        mailController.setSubject("Hey! Check out this cool Pic!")
+        mailController.setMessageBody("\(post?.caption)", isHTML: false)
+        
+        if let image = postImageView.image,
+            let imageData = UIImageJPEGRepresentation(image, 0.3) {
+            mailController.addAttachmentData(imageData, mimeType: "image/jpeg", fileName: "\(post?.caption)")
+        }
+        
+        presentViewController(mailController, animated: true, completion: nil)
+        */
     }
+    
     @IBAction func followButtonTapped(sender: AnyObject) {
         
     }
+    
     @IBAction func commentButtonTapped(sender: AnyObject) {
         presentNewCommentAlert()
     }
@@ -57,6 +80,10 @@ class PostDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     func updateWithPost(post: Post) {

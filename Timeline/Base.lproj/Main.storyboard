@@ -66,26 +66,44 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VQE-fF-RPw" userLabel="timestampLabel">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bt4-SN-dJP" userLabel="timestampLabelsView">
                                                     <rect key="frame" x="0.0" y="359" width="304" height="18"/>
-                                                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VQE-fF-RPw" userLabel="timestampLabel">
+                                                            <rect key="frame" x="0.0" y="0.0" width="304" height="18"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g8d-RA-aY0">
+                                                            <rect key="frame" x="0.0" y="0.0" width="304" height="18"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="18" id="1XO-Rx-3l6"/>
+                                                        <constraint firstItem="VQE-fF-RPw" firstAttribute="top" secondItem="Bt4-SN-dJP" secondAttribute="top" id="3p7-rD-ydp"/>
+                                                        <constraint firstAttribute="height" constant="18" id="4ja-6T-N5k"/>
+                                                        <constraint firstItem="g8d-RA-aY0" firstAttribute="leading" secondItem="Bt4-SN-dJP" secondAttribute="leading" id="KJw-s0-A5O"/>
+                                                        <constraint firstAttribute="trailing" secondItem="VQE-fF-RPw" secondAttribute="trailing" id="Mhc-Mn-QAg"/>
+                                                        <constraint firstAttribute="bottom" secondItem="g8d-RA-aY0" secondAttribute="bottom" id="gMw-qn-2An"/>
+                                                        <constraint firstAttribute="trailing" secondItem="g8d-RA-aY0" secondAttribute="trailing" id="itG-NL-rEb"/>
+                                                        <constraint firstItem="VQE-fF-RPw" firstAttribute="leading" secondItem="Bt4-SN-dJP" secondAttribute="leading" id="l6E-kc-1Al"/>
+                                                        <constraint firstItem="g8d-RA-aY0" firstAttribute="top" secondItem="Bt4-SN-dJP" secondAttribute="top" id="qbb-wg-UYN"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
+                                                </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="VQE-fF-RPw" firstAttribute="leading" secondItem="jfc-28-IU7" secondAttribute="leading" id="8Kq-GJ-PhO"/>
+                                                <constraint firstItem="Bt4-SN-dJP" firstAttribute="leading" secondItem="jfc-28-IU7" secondAttribute="leadingMargin" id="DVf-K5-LFm"/>
                                                 <constraint firstItem="rxf-i1-DDN" firstAttribute="top" secondItem="0GV-GE-4mr" secondAttribute="bottom" constant="1" id="DxS-CG-Fpy"/>
                                                 <constraint firstAttribute="height" constant="377" id="HMK-m9-6Cq"/>
                                                 <constraint firstAttribute="trailing" secondItem="rxf-i1-DDN" secondAttribute="trailing" id="UXh-QG-AoT"/>
-                                                <constraint firstAttribute="trailing" secondItem="VQE-fF-RPw" secondAttribute="trailing" id="atH-Zv-Tks"/>
                                                 <constraint firstItem="0GV-GE-4mr" firstAttribute="leading" secondItem="jfc-28-IU7" secondAttribute="leading" id="fXb-KV-T2L"/>
                                                 <constraint firstAttribute="trailing" secondItem="0GV-GE-4mr" secondAttribute="trailing" id="pSj-XC-r5D"/>
                                                 <constraint firstItem="0GV-GE-4mr" firstAttribute="centerX" secondItem="jfc-28-IU7" secondAttribute="centerX" id="tSn-R9-Xgz"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Bt4-SN-dJP" secondAttribute="trailing" id="uom-ye-6EI"/>
                                                 <constraint firstItem="rxf-i1-DDN" firstAttribute="leading" secondItem="jfc-28-IU7" secondAttribute="leading" id="yUO-16-rMT"/>
                                             </constraints>
                                         </stackView>
@@ -101,6 +119,7 @@
                                     <outlet property="captionLabel" destination="rxf-i1-DDN" id="dpx-w6-bOU"/>
                                     <outlet property="postImage" destination="0GV-GE-4mr" id="bBL-U2-PPG"/>
                                     <outlet property="timestampLabel" destination="VQE-fF-RPw" id="X2W-Sf-AdG"/>
+                                    <outlet property="timestampTextLabel" destination="g8d-RA-aY0" id="YsP-Qd-h4m"/>
                                     <segue destination="dup-j4-WNE" kind="show" identifier="toViewPost" id="fiK-bR-t7Z"/>
                                 </connections>
                             </tableViewCell>
