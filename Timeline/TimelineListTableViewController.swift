@@ -39,14 +39,16 @@ class TimelineListTableViewController: UITableViewController, UISearchResultsUpd
         let resultsController = storyboard.instantiateViewControllerWithIdentifier("resultsTVC")
         
         searchController = UISearchController(searchResultsController: resultsController)
-        guard let searchController = searchController else { return }
+//        guard let searchController = searchController else { return }
         
-        searchController.searchResultsUpdater = self
-        searchController.hidesNavigationBarDuringPresentation = true
-        searchController.searchBar.placeholder = "Search for a Post"
-        searchController.definesPresentationContext = true
+        searchController?.searchResultsUpdater = self
+        searchController?.hidesNavigationBarDuringPresentation = true
+        searchController?.searchBar.placeholder = "Search for a Post"
+        searchController?.definesPresentationContext = true
         
-        tableView.tableHeaderView = searchController.searchBar
+        tableView.tableHeaderView = searchController?.searchBar
+        
+        definesPresentationContext = true
         
     }
     
@@ -54,9 +56,9 @@ class TimelineListTableViewController: UITableViewController, UISearchResultsUpd
         guard let resultsViewController = searchController.searchResultsController as? ResultsSearchTableViewController,
             searchTerm = searchController.searchBar.text?.lowercaseString else { return }
         
-        let posts = PostController.sharedController.posts
-        let filteredPosts = posts.filter{ $0.matchesSearchTerm(searchTerm)}.map {$0 as SearchableRecord}
-        resultsViewController.filteredPosts = filteredPosts
+                let posts = PostController.sharedController.posts
+        let filteredPosts = posts.filter{ $0.matchesSearchTerm(searchTerm) }.map { $0 as SearchableRecord }
+        resultsViewController.resultsArray = filteredPosts
         resultsViewController.tableView.reloadData()
     }
 

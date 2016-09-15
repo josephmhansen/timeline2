@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CloudKit
 
-class Post {
+class Post: CloudKitSyncable {
     
     let photoData: NSData?
     let caption: String
@@ -38,7 +38,7 @@ class Post {
         self.comments = comments
     }
     
-    convenience init?(record: CKRecord) {
+    convenience required init?(record: CKRecord) {
         guard let timestamp = record[Post.kTimestamp] as? NSDate,
         photoAsset = record[Post.kPhotoData] as? CKAsset,
         caption = record[Post.kCaption] as? String,

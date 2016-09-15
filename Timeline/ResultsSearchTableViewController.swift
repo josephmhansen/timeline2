@@ -10,7 +10,7 @@ import UIKit
 
 class ResultsSearchTableViewController: UITableViewController {
     
-    var filteredPosts: [SearchableRecord] = []
+    var resultsArray: [SearchableRecord] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,15 +36,17 @@ class ResultsSearchTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return filteredPosts.count
+        return resultsArray.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier("resultsCell", forIndexPath: indexPath) as? PostTableViewCell,
-        let result = filteredPosts[indexPath.row] as? Post else { return UITableViewCell() }
+        let cell = tableView.dequeueReusableCellWithIdentifier("resultsCell", forIndexPath: indexPath) as? PostTableViewCell
+        guard let result = resultsArray[indexPath.row] as? Post else { return UITableViewCell() }
         
-        cell.updateWithPost(result)
+        
+//        cell?.postImage.image = result.photo
+        cell?.updateWithPost(result)
         
         
         // Configure the cell...
@@ -56,6 +58,11 @@ class ResultsSearchTableViewController: UITableViewController {
         // Configure the cell...
 
         return cell ?? UITableViewCell()
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)  {
+        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        self.presentingViewController?.performSegueWithIdentifier("toPostDetailFromSearch", sender: cell)
     }
     
 
