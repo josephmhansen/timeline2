@@ -13,6 +13,12 @@ class PostController {
     static let sharedController = PostController()
     private let cloudKitManager = CloudKitManager()
     
+    init() {
+//        self.cloudKitManager = CloudKitManager()
+        
+    
+    }
+    
     var posts: [Post] = [] {
         didSet {
                 dispatch_async(dispatch_get_main_queue()) {
@@ -21,6 +27,7 @@ class PostController {
                 }
         }
     }
+    
     var captions: [String] = []
     
     func searchForPostWithCaption(caption: String) -> [Post] {
@@ -103,8 +110,56 @@ class PostController {
             completion?(error)
         }
     }
-
     
-
+    func enableSubscriptionToPostComments(post: Post, alertBody: String?, completion: ((success: Bool, error: NSError?) -> Void)?) {
+        guard let recordID = post.cloudKitRecordID else { fatalError("Error creating CloudKit Reference for Subscription.") }
+        let predicate = NSPredicate(format: "postReference == %@", argumentArray: [recordID])
+        
+        cloudKitManager.subscribe(Comment.kType, predicate: predicate, subscriptionID: recordID.recordName, contentAvailable: true, alertBody: alertBody, desiredKeys: [Comment.kText, Comment.kPostReference], options: .FiresOnRecordCreation) { (subscription, error) in
+            if let completion = completion {
+                let success = subscription != nil
+                completion(success: success, error: error)
+                print(error)
+            }
+        }
+    }
+    
+    func disableSubscriptionToPostComments(post: Post, completion: ((success: Bool, error: NSError?) -> Void)?) {
+        guard let subscriptionID = post.cloudKitRecordID?.recordName else {
+            completion?(success: true, error: nil)
+            return
+        }
+        
+        cloudKitManager.unsubscribe(subscriptionID) { (subscriptionID, error) in
+            if let completion = completion {
+                let success = subscriptionID != nil && error == nil
+                completion(success: success, error: error)
+            }
+        }
+    }
+    
+    func togglePostCommentSubscription(post: Post, completion: ((success: Bool, isSubscribed: Bool, error: NSError?) -> Void)?) {
+        guard let subscriptionID = post.cloudKitRecordID?.recordName else {
+            completion?(success: false, isSubscribed: false, error: nil)
+            return
+        }
+        
+        cloudKitManager.fetchSubscription(subscriptionID) { (subscription, error) in
+            if subscription != nil {
+                self.disableSubscriptionToPostComments(post, completion: { (success, error) in
+                    if let completion = completion {
+                        completion(success: success, isSubscribed: false, error: error)
+                    }
+                })
+                
+            } else {
+                self.enableSubscriptionToPostComments(post, alertBody: "New comment on a Subscribed Post", completion: { (success, error) in
+                    if let completion = completion {
+                        completion(success: true, isSubscribed: true, error: error)
+                    }
+                })
+            }
+        }
+    }
 
 }

@@ -28,9 +28,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        
+        print("Got a notification")
         PostController.sharedController.fetchPosts { (_) in
             
         }
+        
+        let newComment = UIAlertController(title: "New Comment", message: "New comment on a subscribed Post", preferredStyle: .Alert)
+        let ok = UIAlertAction(title: "Dismiss", style: .Default) { (_) in
+            
+        }
+        
+//        newComment.addAction(newComment)
+        newComment.addAction(ok)
+        self.window?.rootViewController?.presentViewController(newComment, animated: true, completion: nil)
+        
+        
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -56,5 +69,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
-}
+    }
 

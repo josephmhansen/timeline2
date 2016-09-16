@@ -23,6 +23,8 @@ class PostDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    @IBOutlet weak var followPostButtonText: UIButton!
+    
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var captionLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
@@ -69,6 +71,11 @@ class PostDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @IBAction func followButtonTapped(sender: AnyObject) {
+        guard let post = post else { return }
+        PostController.sharedController.togglePostCommentSubscription(post) { (success, isSubscribed, error) in
+            self.updateWithPost(post)
+            print("follow post button tapped")
+        }
         
     }
     

@@ -85,6 +85,33 @@ class CloudKitManager {
         
     }
     
+    func subscribe(type: String, predicate: NSPredicate, subscriptionID: String, contentAvailable: Bool, alertBody: String? = nil, desiredKeys: [String]? = nil, options: CKSubscriptionOptions, completion: ((subscription: CKSubscription?, error: NSError?) -> Void)?) {
+        let subscription = CKSubscription(recordType: type, predicate: predicate, subscriptionID: subscriptionID, options: options)
+        
+        let notificationInfo = CKNotificationInfo()
+        notificationInfo.alertBody = alertBody
+        notificationInfo.shouldSendContentAvailable = contentAvailable
+        notificationInfo.desiredKeys = desiredKeys
+        
+        subscription.notificationInfo = notificationInfo
+        publicDatabase.saveSubscription(subscription) { (subscription, error) in
+            
+            completion?(subscription: subscription, error: error)
+        }
+    }
+    
+    func unsubscribe(subscriptionID: String, completion: ((subscriptionID: String?, error: NSError?) -> Void)?) {
+        publicDatabase.deleteSubscriptionWithID(subscriptionID) { (subscriptionID, error) in
+            completion?(subscriptionID: subscriptionID, error: error)
+        }
+    }
+    
+    func fetchSubscription(subscriptionID: String, completion: ((subscription: CKSubscription?, error: NSError?) -> Void)?) {
+        publicDatabase.fetchSubscriptionWithID(subscriptionID) { (subscription, error) in
+            completion?(subscription: subscription, error: error)
+        }
+    }
+    
     // MARK: - Delete
     
     func deleteRecordWithID(recordID: CKRecordID, completion: ((recordID: CKRecordID?, error: NSError?) -> Void)?) {
